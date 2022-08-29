@@ -98,12 +98,9 @@ export default {
     localFilter() {
       this.$emit('update:filter', this.localFilter);
     },
-    localIsSorted() {
-      this.$emit('update:isSorted', this.localIsSorted);
-    },
   },
 
-  emits: ['update:filter', 'update:isSorted', 'update:count'],
+  emits: ['update:filter', 'update:count'],
 };
 </script>
 
