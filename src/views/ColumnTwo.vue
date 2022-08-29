@@ -1,32 +1,31 @@
 <template>
   <div class="container">
-    <ColumnTwoItem
-      v-for="item in getFilteredItems"
+    <button
+      v-for="item in array"
       :key="item.id"
-      :item="item"
-    />
+      @click="$emit('selectItem', item)"
+    >
+      {{item}}
+    </button>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-import ColumnTwoItem from '@/views/ColumnTwoItem.vue';
-
 export default {
   name: 'ColumnTwo',
-  methods: {
-    ...mapMutations(['updateItemAmount']),
+
+  props: {
+    array: {
+      type: Array,
+      default: () => [],
+    },
   },
-  components: {
-    ColumnTwoItem,
-  },
-  computed: {
-    ...mapGetters(['getFilteredItems']),
-  },
+
+  emits: ['selectItem'],
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .container {
   display: flex;

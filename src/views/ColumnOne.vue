@@ -6,10 +6,9 @@
       <label for="all">
         <input
           id="all"
-          name="all"
-          type="checkbox"
-          :checked="filter === 'all'"
-          @click="setFilter('all')"
+          type="radio"
+          value="all"
+          v-model="localFilter"
         />
         Все
       </label>
@@ -19,10 +18,9 @@
       <label for="negative">
         <input
           id="negative"
-          name="negative"
-          type="checkbox"
-          :checked="filter === 'negative'"
-          @click="setFilter('negative')"
+          type="radio"
+          value="negative"
+          v-model="localFilter"
         />
         Меньше 0
       </label>
@@ -32,11 +30,11 @@
       <label for="positive">
         <input
           id="positive"
-          :checked="filter === 'positive'"
-          name="positive"
-          type="checkbox"
-          @click="setFilter('positive')" />
-        Больше 0
+          type="radio"
+          value="positive"
+          v-model="localFilter"
+        />
+        Больше 0 или равно
       </label>
     </div>
 
@@ -47,8 +45,7 @@
           id="sum"
           name="sum"
           type="checkbox"
-          :checked="filter === 'sum'"
-          @click="setFilter('sum')"
+          v-model="localIsSorted"
         />
         Сортировать по сумму
       </label>
@@ -63,7 +60,8 @@
           name="item-count-input"
           class="item-count-input"
           type="number"
-          @input="generateItems(Number($event.target.value))"
+          :value="count"
+          @input="$emit('update:count', $event.target.value)"
         />
       </label>
     </div>
@@ -71,16 +69,41 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
-
 export default {
   name: 'ColumnOne',
-  computed: {
-    ...mapState(['filter']),
+
+  data() {
+    return {
+      localFilter: '',
+      localIsSorted: false,
+    };
   },
-  methods: {
-    ...mapMutations(['generateItems', 'setFilter']),
+
+  props: {
+    filter: {
+      type: String,
+      default: '',
+    },
+    isSorted: {
+      type: Boolean,
+      default: false,
+    },
+    count: {
+      type: Number,
+      default: 0,
+    },
   },
+
+  watch: {
+    localFilter() {
+      this.$emit('update:filter', this.localFilter);
+    },
+    localIsSorted() {
+      this.$emit('update:isSorted', this.localIsSorted);
+    },
+  },
+
+  emits: ['update:filter', 'update:isSorted', 'update:count'],
 };
 </script>
 

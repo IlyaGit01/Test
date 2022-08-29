@@ -1,22 +1,29 @@
 <template>
   <div class="container">
-    <div
-      v-for="item in getSelectedItems"
+    <button
+      v-for="item in selectedItems"
       :key="item.id"
+      @click="$emit('deleteItem', item)"
     >
-      id: {{item.id}} amount: {{item.amount}}
-    </div>
+      {{item}}
+    </button>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'ColumnThree',
-  computed: {
-    ...mapGetters(['getSelectedItems']),
+
+  props: {
+    selectedItems: {
+      type: Array,
+      default: () => [],
+    },
   },
+
+  emits: ['deleteItem'],
+
 };
 </script>
 
@@ -27,6 +34,9 @@ export default {
   height: 100%;
   padding-left: 12px;
   padding-top: 12px;
+
+  display: flex;
+  flex-direction: column;
 }
 
 </style>
